@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mysql-job
+spec:
+  ttlSecondsAfterFinished: 100
+  template:
+    spec:
+      containers:
+      - name: mysql-job
+        image: mysql-client:latest
+        command: ["mysql",  "-hminikube", "-P30306", "-uadmin", "-padmin", "-e", "use rowy; insert into ids (id) values (111);"]
+		env:
+		  - name: BLA
+		    value: 222
+        imagePullPolicy: Never
+      restartPolicy: Never
+
+
+
+
+mysql -h minikube -P30306 -uadmin -padmin -e "use rowy; insert into ids (id) values ($BLA);"
+#command: ["mysql",  "-hminikube", "-P30306", "-uadmin", "-padmin", "-e", "use rowy; insert into ids (id) values (\\$BLA);"]
+
+#        args:
+#        - /usr/bin/mysql -hminikube -P30306 -uadmin -padmin -e "use rowy; insert into ids (id) values (555);"
